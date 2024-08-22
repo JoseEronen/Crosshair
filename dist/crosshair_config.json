@@ -1,1 +1,1 @@
-{"circle_radius": 3, "crosshair_color": [255, 0, 0], "crosshair_alpha": 255, "crosshair_image_path": null}
+{"circle_radius": 3, "crosshair_color": [255, 0, 0], "crosshair_alpha": 255, "crosshair_type": "circle", "red_dot_radius": 2, "crosshair_thickness": 3, "crosshair_image_path": null}

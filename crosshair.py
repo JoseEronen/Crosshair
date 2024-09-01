@@ -26,7 +26,7 @@ class CrosshairApp:
 
         self.startup_image = None
         self.startup_duration = 3000
-        self.version = "0.3.1"
+        self.version = "0.3.2"
 
         self.load_settings()
         self.setup_tkinter()
@@ -45,6 +45,8 @@ class CrosshairApp:
                 self.crosshair_image_path = settings.get('crosshair_image_path', None)
                 if self.crosshair_image_path and os.path.exists(self.crosshair_image_path):
                     self.crosshair_image = Image.open(self.crosshair_image_path).convert("RGBA")
+                # Load crosshair position if available
+                self.circle_center = tuple(settings.get('circle_center', self.circle_center))
 
     def save_settings(self):
         settings = {
@@ -54,7 +56,9 @@ class CrosshairApp:
             'crosshair_type': self.crosshair_type,
             'red_dot_radius': self.red_dot_radius,
             'crosshair_thickness': self.crosshair_thickness,
-            'crosshair_image_path': self.crosshair_image_path
+            'crosshair_image_path': self.crosshair_image_path,
+            # Save crosshair position
+            'circle_center': self.circle_center
         }
         with open(self.config_file, 'w') as file:
             json.dump(settings, file)
@@ -73,7 +77,9 @@ class CrosshairApp:
         self.canvas = tk.Canvas(self.root, bg='#000000', highlightthickness=0)
         self.canvas.pack(fill=tk.BOTH, expand=True)
 
-        self.circle_center = (screen_width // 2, screen_height // 2)
+        # Use loaded position or center if not available
+        if self.circle_center == (0, 0):
+            self.circle_center = (screen_width // 2, screen_height // 2)
 
         self.show_startup_image()
 
